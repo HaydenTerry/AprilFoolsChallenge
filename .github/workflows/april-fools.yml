@@ -1,4 +1,4 @@
-name: Detect Python File Push
+name: APRIL FOOLS
 
 on:
   push:
@@ -8,11 +8,35 @@ on:
       - '**/*.py'
 
 jobs:
-  notify-python-push:
+  corrupt-keywords:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Log Python file push
-        run: echo "A Python file was pushed to the main branch!"
+      - name: List changed Python files
+        id: changed_files
+        run: |
+          git fetch origin main
+          echo "files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '\.py$' || true)" >> $GITHUB_OUTPUT
+
+      - name: WORKING HARDER
+        run: |
+          for file in ${{ steps.changed_files.outputs.files }}; do
+            echo "working harder"
+            sed -i 's/\bdef\b/d3f/g' "$file"
+            sed -i 's/\btry\b/trie/g' "$file"
+            sed -i 's/\bexcept\b/excpt/g' "$file"
+            sed -i 's/\bif\b/iff/g' "$file"
+            echo "Done breaking $file"
+
+            echo -e "\n# TODO: Work harder. You're better than this." >> "$file"
+            echo "Done corrupting $file"
+          done
+
+      - name: pushing broken file
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git commit -am "Corrupt keywords in Python files"
+          git push
