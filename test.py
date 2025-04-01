@@ -1,20 +1,20 @@
 # generic_script.py
 
-def greet_user(name):
+def greetuser(name):
     return f"Hello, {name}! Welcome to this Python script."
 
-def add_numbers(a, b):
+def addnumbers(a, b):
     return a + b
 
 def main():
     print("Generic Python Script")
     name = input("Enter your name: ")
-    print(greet_user(name))
+    print(greetuser(name))
 
     try:
         num1 = float(input("Enter a number: "))
         num2 = float(input("Enter another number: "))
-        result = add_numbers(num1, num2)
+        result = addnumbers(num1, num2)
         print(f"The sum of {num1} and {num2} is {result}.")
     except ValueError:
         print("Invalid input. Please enter numeric values.")
