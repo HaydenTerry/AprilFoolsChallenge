@@ -1,28 +1,18 @@
-name: Update README
+name: Detect Python File Push
 
 on:
   push:
-    branches: [ main ] 
+    branches:
+      - main
+    paths:
+      - '**/*.py'
 
 jobs:
-  update-readme:
+  notify-python-push:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Make changes to README.md
-        run: |
-          echo "## This was added by a GitHub Action!" >> README.md
-
-      - name: Commit and push changes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add README.md
-          git commit -m "chore: update README via GitHub Actions"
-          git push
-        env:
-          # needed to push changes
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Log Python file push
+        run: echo "A Python file was pushed to the main branch!"
