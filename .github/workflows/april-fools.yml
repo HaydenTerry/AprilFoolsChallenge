@@ -1,37 +1,28 @@
-name: April Fools
+name: Update README
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ] 
 
 jobs:
-  april-fools:
+  update-readme:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        ref: main
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
+      - name: Make changes to README.md
+        run: |
+          echo "## This was added by a GitHub Action!" >> README.md
 
-    - name: Run the prank script
-      run: python3 april_fools.py
-
-    - name: Commit and push if README changed
-      run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
-        git add README.md
-        if git diff --cached --quiet; then
-          echo "No changes to commit"
-        else
-          git commit -m "🤡 April Fools prank triggered"
-          git push origin main
-        fi
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "chore: update README via GitHub Actions"
+          git push
+        env:
+          # needed to push changes
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
