@@ -1,25 +1,12 @@
-# This is a test file
-
-# generic_script.py
-
-def greet_user(name):
-    return f"Hello, {name}! Welcome to this Python script."
-
-def add_numbers(a, b):
-    return a + b
-
-def main():
-    print("Generic Python Script")
-    name = input("Enter your name: ")
-    print(greet_user(name))
-
+# test_script.py
+def hello():
     try:
-        num1 = float(input("Enter a number: "))
-        num2 = float(input("Enter another number: "))
-        result = add_numbers(num1, num2)
-        print(f"The sum of {num1} and {num2} is {result}.")
-    except ValueError:
-        print("Invalid input. Please enter numeric values.")
+        print("Hello world!")
+    except Exception as e:
+        print(e)
 
 if __name__ == "__main__":
-    main()
+    hello()
+
+
+# this is a test file
