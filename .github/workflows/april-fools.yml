@@ -1,42 +1,34 @@
 name: APRIL FOOLS
 
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - '**/*.py'
+on: [ push ]
 
-jobs:
-  corrupt-keywords:
+permissions:
+  contents: write
+
+jobs: 
+  april-fools:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - name: checking code
+        uses: actions/checkout@v4
 
-      - name: List changed Python files
-        id: changed_files
+      - name: April-Fools!
         run: |
-          git fetch origin main
-          echo "files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '\.py$' || true)" >> $GITHUB_OUTPUT
-
-      - name: WORKING HARDER
-        run: |
-          for file in ${{ steps.changed_files.outputs.files }}; do
-            echo "working harder"
-            sed -i 's/\bdef\b/d3f/g' "$file"
-            sed -i 's/\btry\b/trie/g' "$file"
-            sed -i 's/\bexcept\b/excpt/g' "$file"
-            sed -i 's/\bif\b/iff/g' "$file"
-            echo "Done breaking $file"
-
-            echo -e "\n# TODO: Work harder. You're better than this." >> "$file"
-            echo "Done corrupting $file"
+          for file in $(find . -name "*.py"); do
+            echo "Pranking $file"
+                # Replace keywords with typos
+            sed -i 's/def/skibidi/g' "$file"
+            sed -i 's/try/ohio/g' "$file"
+            sed -i 's/except/BAKA/g' "$file"
+            sed -i 's/flaot/jigglaooshnuckbang/g' "$file"
+            sed -i 's/print/rahhhh/g' "$file"
+            echo "# WORK HARDER!" >> "$file"
           done
 
-      - name: pushing broken file
+      - name: Commit and Push the Messed Up Code
         run: |
-          git config user.name "GitHub Actions"
+          git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add .
-          git diff --cached --quiet || (git commit -m "Corrupt keywords in Python files" && git push)
+          git commit -m "Please work harder, you lazy bum"
+          git push
